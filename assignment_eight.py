@@ -1,5 +1,6 @@
 import tkinter
 import tkinter as tk
+import math
 
 root = tk.Tk()
 root.title("calculator")
@@ -79,26 +80,26 @@ def press_exponent():
     n += "^"
     equation.set(n)
 
+def press_sqrt():
+    n = equation.get()
+    n += "√"
+    equation.set(n)
+
 def press_clear():
     equation.set("")
 
 def press_solve():
     n = equation.get()
+
     if "^" in n:
-        pos = int(n.index("^"))
-        if n[pos+1] == "0":
-            equation.set("1")
-        else:
-            before = n[:pos]
-            after = int(n[pos+1:])
-            n = before
-            while after > 1:
-                n += "*"+before
-                after -= 1
-            equation.set(n)
+        n = n.replace("^", "**")
 
     if "√" in n:
-        pass
+        n = n.replace("√", "math.sqrt(") + ")"
+        # print(n)
+        n = compile(n, "<string>", "eval")
+
+    print(n)
     n = eval(n)
     equation.set(n)
 
@@ -170,7 +171,7 @@ divide.grid(row=4, column=4)
 exponent = tk.Button(frame4, text="^", command=press_exponent)
 exponent.grid(row=5, column=1)
 
-sqrt = tk.Button(frame4, text="√")
+sqrt = tk.Button(frame4, text="√", command=press_sqrt)
 sqrt.grid(row=5, column=3)
 
 solve = tk.Button(root, text="=", command=press_solve)
@@ -188,7 +189,7 @@ tk.mainloop()
 #   1   2   3     -
 #   4   5   6     x
 #   7   8   9     /
-#   ^   0  sqrt   =
+#   ^   0   !     =
 
 
 
