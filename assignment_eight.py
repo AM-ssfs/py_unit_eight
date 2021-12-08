@@ -1,21 +1,21 @@
-import tkinter
+# Aden Menschik
+# last edit Dec. 8 2021
+# basic calculator
+
 import tkinter as tk
 import math
 
 root = tk.Tk()
 root.title("Calculator")
 
-"""
-vars
-"""
-
-equation = tkinter.StringVar()
+equation = tk.StringVar()
 equation.set("")
 
 """
 functions
 """
 
+# adds number to the end of the equation
 
 def press_1():
     n = equation.get()
@@ -58,6 +58,8 @@ def press_0():
     n += "0"
     equation.set(n)
 
+# adds symbol to the end of the equation
+
 def press_deci():
     n = equation.get()
     n += "."
@@ -86,12 +88,19 @@ def press_sqrt():
     n = equation.get()
     n += "√"
     equation.set(n)
+
+# clears entire equation
+# deletes last character
+
 def press_clear():
     equation.set("")
 def press_del():
     n = equation.get()
     n = n[:-1]
     equation.set(n)
+
+# keeps the equation pretty when the user is entering the equation, run this when they click solve so they don't see
+
 def press_solve():
     n = equation.get()
 
@@ -99,15 +108,15 @@ def press_solve():
         n = n.replace("^", "**")
 
     if "√" in n:
-        n = n.replace("√", "( math.sqrt(") + "))"
-        print(n)
-        n = compile(n, "<string>", "eval")
+        n = n.replace("√", " math.sqrt(") + ")"
 
-    if eval(n) == SyntaxError or None:
+    if eval(n) == SyntaxError:  # or SyntaxWarning  # doesnt work :(
         equation.set("error")
     else:
         n = eval(n)
         equation.set(n)
+
+
 def press_off():
     root.destroy()
 
@@ -165,6 +174,11 @@ button0.grid(row=5, column=1)
 operators
 """
 
+deci = tk.Button(frame4, text=".", command=press_deci, width=10, font=("Arial", "40"))
+deci.grid(row=5, column=2)
+solve = tk.Button(frame4, text="=", command=press_solve, width=10, font=("Arial", "40"))
+solve.grid(row=5, column=3)
+
 
 add = tk.Button(frame1, text="+", command=press_add, width=10, font=("Arial", "40"))
 add.grid(row=2, column=4)
@@ -175,43 +189,29 @@ multiply.grid(row=4, column=4)
 divide = tk.Button(frame4, text="/", command=press_divide, width=10, font=("Arial", "40"))
 divide.grid(row=5, column=4)
 
-deci = tk.Button(frame4, text=".", command=press_deci, width=10, font=("Arial", "40"))
-deci.grid(row=5, column=2)
-
-solve = tk.Button(frame4, text="=", command=press_solve, width=10, font=("Arial", "40"))
-solve.grid(row=5, column=3)
 
 sqrt = tk.Button(root, text="√", command=press_sqrt, width=10, font=("Arial", "40"))
 sqrt.grid(row=2, column=3)
-
 exp = tk.Button(root, text="^", command=press_exponent, width=10, font=("Arial", "40"))
 exp.grid(row=3, column=3)
-
 delete = tk.Button(root, text="Del", command=press_del, width=10, font=("Arial", "40"))
 delete.grid(row=4, column=3)
-
 clear = tk.Button(root, text="Clear", command=press_clear, width=10, font=("Arial", "40"))
 clear.grid(row=5, column=3)
 
 
-off = tk.Button(root, text="Off", command=press_off, width=10, font=("Arial", "40"))
+off = tk.Button(root, text="Off", command=press_off, width=3, font=("Arial", "30"))
 off.grid(row=1, column=3)
-
-
-
-
-
-
 
 
 tk.mainloop()
 
 
-#   entry clear   +
-#   1   2   3     -
-#   4   5   6     x
-#   7   8   9     /
-#   ^   0   !     =
+#   entryyyyyyyyyyyy  off
+#   1   2   3     +   sqrt
+#   4   5   6     -   ^
+#   7   8   9     x   del
+#   0   .   =     /   clear
 
 
 
