@@ -112,11 +112,13 @@ def press_solve():
 
     print(n)
 
-    if eval(n) == SyntaxError:  # or ZeroDivisionError or OverflowError or ValueError: # doesnt work :(
-        equation.set("error")
-    else:
+    try:
         n = eval(n)
         equation.set(n)
+    except (SyntaxError, ValueError, OverflowError):
+        equation.set("Error")
+
+
 
 
 def press_off():
