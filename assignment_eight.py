@@ -89,7 +89,7 @@ def press_sqrt():
     n += "√"
     equation.set(n)
 
-# clears entire equation
+# deletes entire equation
 # deletes last character
 
 def press_clear():
@@ -110,7 +110,7 @@ def press_solve():
     if "√" in n:
         n = n.replace("√", " math.sqrt(") + ")"
 
-    if eval(n) == SyntaxError:  # or SyntaxWarning  # doesnt work :(
+    if eval(n) == SyntaxError:  # or ZeroDivisionError or OverflowError or ValueError: # doesnt work :(
         equation.set("error")
     else:
         n = eval(n)
