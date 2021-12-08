@@ -3,7 +3,7 @@ import tkinter as tk
 import math
 
 root = tk.Tk()
-root.title("calculator")
+root.title("Calculator")
 
 """
 vars
@@ -58,6 +58,10 @@ def press_0():
     n += "0"
     equation.set(n)
 
+def press_deci():
+    n = equation.get()
+    n += "."
+    equation.set(n)
 def press_add():
     n = equation.get()
     n += "+"
@@ -74,20 +78,20 @@ def press_divide():
     n = equation.get()
     n += "/"
     equation.set(n)
-
 def press_exponent():
     n = equation.get()
     n += "^"
     equation.set(n)
-
 def press_sqrt():
     n = equation.get()
     n += "√"
     equation.set(n)
-
 def press_clear():
     equation.set("")
-
+def press_del():
+    n = equation.get()
+    n = n[:-1]
+    equation.set(n)
 def press_solve():
     n = equation.get()
 
@@ -95,20 +99,24 @@ def press_solve():
         n = n.replace("^", "**")
 
     if "√" in n:
-        n = n.replace("√", "math.sqrt(") + ")"
-        # print(n)
+        n = n.replace("√", "( math.sqrt(") + "))"
+        print(n)
         n = compile(n, "<string>", "eval")
 
-    print(n)
-    n = eval(n)
-    equation.set(n)
+    if eval(n) == SyntaxError or None:
+        equation.set("error")
+    else:
+        n = eval(n)
+        equation.set(n)
+def press_off():
+    root.destroy()
 
 
 """
 entry
 """
 
-text_field = tk.Entry(root, textvariable=equation)
+text_field = tk.Entry(root, textvariable=equation, width=40, borderwidth=3, font=("Arial", "40"))
 text_field.grid(row=1, column=1)
 
 
@@ -117,65 +125,79 @@ numbers 0-9
 """
 
 frame1 = tk.Frame(root)
-frame1.grid(row=2, column=1, columnspan=2, pady=10)
 
-button1 = tk.Button(frame1, text="1", command=press_1)
+frame1.grid(row=2, column=1, columnspan=2)
+
+button1 = tk.Button(frame1, text="1", command=press_1, width=10, font=("Arial", "40"))
 button1.grid(row=2, column=1)
-button2 = tk.Button(frame1, text="2", command=press_2)
+button2 = tk.Button(frame1, text="2", command=press_2, width=10, font=("Arial", "40"))
 button2.grid(row=2, column=2)
-button3 = tk.Button(frame1, text="3", command=press_3)
+button3 = tk.Button(frame1, text="3", command=press_3, width=10, font=("Arial", "40"))
 button3.grid(row=2, column=3)
 
 frame2 = tk.Frame(root)
-frame2.grid(row=3, column=1, columnspan=2, pady=10)
+frame2.grid(row=3, column=1, columnspan=2)
 
-button4 = tk.Button(frame2, text="4", command=press_4)
+button4 = tk.Button(frame2, text="4", command=press_4, width=10, font=("Arial", "40"))
 button4.grid(row=3, column=1)
-button5 = tk.Button(frame2, text="5", command=press_5)
+button5 = tk.Button(frame2, text="5", command=press_5, width=10, font=("Arial", "40"))
 button5.grid(row=3, column=2)
-button6 = tk.Button(frame2, text="6", command=press_6)
+button6 = tk.Button(frame2, text="6", command=press_6, width=10, font=("Arial", "40"))
 button6.grid(row=3, column=3)
 
 frame3 = tk.Frame(root)
-frame3.grid(row=4, column=1, columnspan=2, pady=10)
+frame3.grid(row=4, column=1, columnspan=2)
 
-button7= tk.Button(frame3, text="7", command=press_7)
+button7= tk.Button(frame3, text="7", command=press_7, width=10, font=("Arial", "40"))
 button7.grid(row=4, column=1)
-button8= tk.Button(frame3, text="8", command=press_8)
+button8= tk.Button(frame3, text="8", command=press_8, width=10, font=("Arial", "40"))
 button8.grid(row=4, column=2)
-button9= tk.Button(frame3, text="9", command=press_9)
+button9= tk.Button(frame3, text="9", command=press_9, width=10, font=("Arial", "40"))
 button9.grid(row=4, column=3)
 
 frame4 = tk.Frame(root)
-frame4.grid(row=5, column=1, columnspan=2, pady=10)
+frame4.grid(row=5, column=1, columnspan=2)
 
-button0 = tk.Button(frame4, text="0", command=press_0)
-button0.grid(row=5, column=2)
+button0 = tk.Button(frame4, text="0", command=press_0, width=10, font=("Arial", "40"))
+button0.grid(row=5, column=1)
 
 """
 operators
 """
 
-clear = tk.Button(root, text="Clear", command=press_clear)
-clear.grid(row=1, column=2)
 
-add = tk.Button(root, text="+", command=press_add)
-add.grid(row=1, column=3)
-subtract = tk.Button(root, text="-", command=press_subtract)
-subtract.grid(row=2, column=4)
-multiply = tk.Button(root, text="x", command=press_multiply)
-multiply.grid(row=3, column=4)
-divide = tk.Button(root, text="/", command=press_divide)
-divide.grid(row=4, column=4)
+add = tk.Button(frame1, text="+", command=press_add, width=10, font=("Arial", "40"))
+add.grid(row=2, column=4)
+subtract = tk.Button(frame2, text="-", command=press_subtract, width=10, font=("Arial", "40"))
+subtract.grid(row=3, column=4)
+multiply = tk.Button(frame3, text="x", command=press_multiply, width=10, font=("Arial", "40"))
+multiply.grid(row=4, column=4)
+divide = tk.Button(frame4, text="/", command=press_divide, width=10, font=("Arial", "40"))
+divide.grid(row=5, column=4)
 
-exponent = tk.Button(frame4, text="^", command=press_exponent)
-exponent.grid(row=5, column=1)
+deci = tk.Button(frame4, text=".", command=press_deci, width=10, font=("Arial", "40"))
+deci.grid(row=5, column=2)
 
-sqrt = tk.Button(frame4, text="√", command=press_sqrt)
-sqrt.grid(row=5, column=3)
+solve = tk.Button(frame4, text="=", command=press_solve, width=10, font=("Arial", "40"))
+solve.grid(row=5, column=3)
 
-solve = tk.Button(root, text="=", command=press_solve)
-solve.grid(row=5, column=4)
+sqrt = tk.Button(root, text="√", command=press_sqrt, width=10, font=("Arial", "40"))
+sqrt.grid(row=2, column=3)
+
+exp = tk.Button(root, text="^", command=press_exponent, width=10, font=("Arial", "40"))
+exp.grid(row=3, column=3)
+
+delete = tk.Button(root, text="Del", command=press_del, width=10, font=("Arial", "40"))
+delete.grid(row=4, column=3)
+
+clear = tk.Button(root, text="Clear", command=press_clear, width=10, font=("Arial", "40"))
+clear.grid(row=5, column=3)
+
+
+off = tk.Button(root, text="Off", command=press_off, width=10, font=("Arial", "40"))
+off.grid(row=1, column=3)
+
+
 
 
 
