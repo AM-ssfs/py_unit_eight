@@ -110,6 +110,8 @@ def press_solve():
     if "√" in n:
         n = n.replace("√", " math.sqrt(") + ")"
 
+    print(n)
+
     if eval(n) == SyntaxError:  # or ZeroDivisionError or OverflowError or ValueError: # doesnt work :(
         equation.set("error")
     else:
